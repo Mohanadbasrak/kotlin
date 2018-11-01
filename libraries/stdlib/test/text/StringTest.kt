@@ -96,6 +96,22 @@ class StringTest {
         assertEquals("", ns.orEmpty())
     }
 
+    @Test fun regionMatchesForCharSequence() = withTwoCharSequenceArgs { arg1, arg2 ->
+        assertTrue(arg1("abcd").regionMatches(1, arg2("debc"), 2, 2))
+        assertFalse(arg1("abcd").regionMatches(1, arg2("DEBc"), 2, 2, ignoreCase = false))
+        assertTrue(arg1("abcd").regionMatches(1, arg2("DEBc"), 2, 2, ignoreCase = true))
+
+        assertFalse(arg1("abcd").regionMatches(3, arg2(""), 2, 1))
+    }
+
+    @Test fun regionMatchesForString() {
+        assertTrue("abcd".regionMatches(1, "debc", 2, 2))
+        assertFalse("abcd".regionMatches(1, "DEBc", 2, 2, ignoreCase = false))
+        assertTrue("abcd".regionMatches(1, "DEBc", 2, 2, ignoreCase = true))
+
+        assertFalse("abcd".regionMatches(3, "", 2, 1))
+    }
+
     @Test fun startsWithString() {
         assertTrue("abcd".startsWith("ab"))
         assertTrue("abcd".startsWith("abcd"))
